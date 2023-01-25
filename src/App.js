@@ -3,6 +3,7 @@ import Escena from "./components/escena/Escena";
 import scenes from "./data.js";
 import { StoryStyled } from "./components/escena/Escena.style";
 import { useState } from "react";
+import Landing from "./components/Landing";
 
 function App() {
   const [hasBackground, setBackground] = useState(true);
@@ -15,14 +16,12 @@ function App() {
     if (count < 4) {
       setCount(count + 1);
     }
-    console.log(count);
   };
 
   const decrease = () => {
     if (count > 1) {
       setCount(count - 1);
     }
-    console.log(count);
   };
 
   const stories = scenes.map((item) => {
@@ -41,18 +40,29 @@ function App() {
     }
   });
 
+  const [start, setStart] = useState(false);
+  function toggleStart() {
+    setStart((prevStart) => !prevStart);
+  }
+
   return (
     <div>
-      <button onClick={decrease}>Anterior</button>
-      <button
-        onClick={() => {
-          increase();
-          applyBackground();
-        }}
-      >
-        Següent
-      </button>
-      {stories}
+      {!start ? (
+        <Landing toggle={toggleStart} />
+      ) : (
+        <div>
+          <button onClick={decrease}>Anterior</button>
+          <button
+            onClick={() => {
+              increase();
+              applyBackground();
+            }}
+          >
+            Següent
+          </button>
+          {stories}
+        </div>
+      )}
     </div>
   );
 }
